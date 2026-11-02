@@ -116,17 +116,17 @@ function hIdx(j) {
   return i < 0 ? 0 : i;
 }
 const WMO = {
-  0: ['Sereno', ICON.sole, 'sole'], 1: ['Prevalentemente sereno', '${ICON.parz}', 'sole'], 2: ['Parzialmente nuvoloso', '${ICON.parz}', 'nuvole'], 3: ['Coperto', '${ICON.nuvole}', 'nuvole_scure'],
-  45: ['Nebbia', ICON.nebbia, 'nebbia'], 48: ['Nebbia con brina', '${ICON.nebbia}', 'nebbia'],
-  51: ['Pioviggine', '${ICON.pioggia}', 'pioggia'], 53: ['Pioviggine', '${ICON.pioggia}', 'pioggia'], 55: ['Pioviggine intensa', '${ICON.pioggia}', 'pioggia'],
-  61: ['Pioggia debole', '${ICON.pioggia}', 'pioggia'], 63: ['Pioggia', '${ICON.pioggia}', 'pioggia'], 65: ['Pioggia forte', '${ICON.pioggia}', 'pioggia'],
-  66: ['Pioggia gelata', '${ICON.pioggia}', 'neve'], 67: ['Pioggia gelata forte', '${ICON.pioggia}', 'neve'],
-  71: ['Neve debole', '${ICON.neve}', 'neve'], 73: ['Neve', ICON.neve, 'neve'], 75: ['Neve forte', '${ICON.neve}', 'neve'], 77: ['Nevischio', '${ICON.neve}', 'neve'],
-  80: ['Rovesci', '${ICON.pioggia}', 'pioggia'], 81: ['Rovesci', '${ICON.pioggia}', 'pioggia'], 82: ['Rovesci forti', '${ICON.temporale}', 'temporale'],
-  85: ['Nevicate a rovesci', '${ICON.neve}', 'neve'], 86: ['Nevicate forti a rovesci', '${ICON.neve}', 'neve'],
-  95: ['Temporale', '${ICON.temporale}', 'temporale'], 96: ['Temporale con grandine', '${ICON.temporale}', 'temporale'], 99: ['Temporale forte con grandine', '${ICON.temporale}', 'temporale']
+  0: ['Sereno', ICON.sole, 'sole'], 1: ['Prevalentemente sereno', ICON.parz, 'sole'], 2: ['Parzialmente nuvoloso', ICON.parz, 'nuvole'], 3: ['Coperto', ICON.nuvole, 'nuvole_scure'],
+  45: ['Nebbia', ICON.nebbia, 'nebbia'], 48: ['Nebbia con brina', ICON.nebbia, 'nebbia'],
+  51: ['Pioviggine', ICON.pioggia, 'pioggia'], 53: ['Pioviggine', ICON.pioggia, 'pioggia'], 55: ['Pioviggine intensa', ICON.pioggia, 'pioggia'],
+  61: ['Pioggia debole', ICON.pioggia, 'pioggia'], 63: ['Pioggia', ICON.pioggia, 'pioggia'], 65: ['Pioggia forte', ICON.pioggia, 'pioggia'],
+  66: ['Pioggia gelata', ICON.pioggia, 'neve'], 67: ['Pioggia gelata forte', ICON.pioggia, 'neve'],
+  71: ['Neve debole', ICON.neve, 'neve'], 73: ['Neve', ICON.neve, 'neve'], 75: ['Neve forte', ICON.neve, 'neve'], 77: ['Nevischio', ICON.neve, 'neve'],
+  80: ['Rovesci', ICON.pioggia, 'pioggia'], 81: ['Rovesci', ICON.pioggia, 'pioggia'], 82: ['Rovesci forti', ICON.temporale, 'temporale'],
+  85: ['Nevicate a rovesci', ICON.neve, 'neve'], 86: ['Nevicate forti a rovesci', ICON.neve, 'neve'],
+  95: ['Temporale', ICON.temporale, 'temporale'], 96: ['Temporale con grandine', ICON.temporale, 'temporale'], 99: ['Temporale forte con grandine', ICON.temporale, 'temporale']
 };
-const condizione = code => WMO[code] || ['Non disponibile', '${ICON.nuvole}', 'nuvole'];
+const condizione = code => WMO[code] || ['Non disponibile', ICON.nuvole, 'nuvole'];
 function sceneKind(code, isDay, hour) {
   let k = condizione(code)[2];
   if (!isDay && (k === 'sole' || k === 'nuvole')) return 'notte';
