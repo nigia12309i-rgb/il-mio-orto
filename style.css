@@ -254,3 +254,11 @@ a{color:#bfe6ff}
 body.meteo #app{max-width:none;padding:0}
 body.meteo .scene.wx-full{width:100%;margin:0;border-radius:0;min-height:100vh;box-sizing:border-box;padding:calc(14px + env(safe-area-inset-top)) 16px 130px;box-shadow:none}
 body.meteo .bottom-nav{background:rgba(20,50,85,.55)!important}
+
+/* ===== niente bagliori: sole senza alone, raggi leggeri, temperatura senza ombra luminosa ===== */
+.sun-core,.sun-core.low{display:none!important}
+.rays-full{background:repeating-conic-gradient(from 0deg at 80% 6%,rgba(255,255,255,.12) 0deg 3deg,transparent 3deg 18deg)!important;-webkit-mask-image:none!important;mask-image:none!important}
+.rays-full.warm{background:repeating-conic-gradient(from 0deg at 85% 90%,rgba(255,255,255,.1) 0deg 3deg,transparent 3deg 18deg)!important}
+.wx-temp{text-shadow:none!important}
+.cloud,.cloud.dark,.cloud.soft{filter:none!important}
+.flash{display:none!important}
