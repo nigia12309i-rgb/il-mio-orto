@@ -1,6 +1,6 @@
 // Service worker: salva l'app per l'uso offline.
 // Per i file dell'app prova prima la rete, così le correzioni arrivano subito; se manca Internet usa la copia salvata.
-const CACHE = 'ilmioorto-v9';
+const CACHE = 'ilmioorto-v10';
 const SHELL = ['./', 'index.html', 'style.css', 'app.js', 'manifest.json', 'icon.svg'];
 
 self.addEventListener('install', e => {

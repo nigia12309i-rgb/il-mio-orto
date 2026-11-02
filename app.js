@@ -93,6 +93,8 @@ async function getWeather(force = false) {
   const key = `meteo:${Number(s.lat).toFixed(3)},${Number(s.lon).toFixed(3)}`;
   const cache = JSON.parse(localStorage.getItem(key) || 'null');
   if (!force && cache && Date.now() - cache.t < 30 * 60e3) return { ...cache, fresh: true };
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 10000);
   try {
     const q = new URLSearchParams({
       latitude: s.lat, longitude: s.lon, timezone: 'Europe/Rome', forecast_days: 10, wind_speed_unit: 'kmh',
@@ -100,14 +102,17 @@ async function getWeather(force = false) {
       hourly: 'temperature_2m,precipitation_probability,precipitation,wind_speed_10m,relative_humidity_2m,uv_index,visibility,weather_code',
       daily: 'weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,uv_index_max'
     });
-    const r = await fetch('https://api.open-meteo.com/v1/forecast?' + q);
+    const r = await fetch('https://api.open-meteo.com/v1/forecast?' + q, { signal: ctrl.signal, cache: 'no-store' });
+    clearTimeout(timer);
     if (!r.ok) throw new Error('servizio meteo non disponibile (' + r.status + ')');
     const j = await r.json();
     const data = { t: Date.now(), j, luogo: s.luogo };
     localStorage.setItem(key, JSON.stringify(data));
     return { ...data, fresh: true };
   } catch (e) {
-    return cache ? { ...cache, fresh: false, err: e.message } : { err: e.message || 'connessione assente' };
+    clearTimeout(timer);
+    const msg = e.name === 'AbortError' ? 'il servizio meteo non risponde (rete lenta o assente)' : (e.message || 'connessione assente');
+    return cache ? { ...cache, fresh: false, err: msg } : { err: msg };
   }
 }
 // indice nelle previsioni orarie corrispondente all'ora attuale
@@ -281,7 +286,7 @@ function cardMeteoCompatta(w) {
 async function pageMeteo() {
   const w = await getWeather(), s = await getSettings();
   if (!w.j) {
-    $('#app').innerHTML = `<h1>Meteo</h1><div class="card err">Meteo non disponibile: ${esc(w.err)}.</div>${linkImpostazioni()}`;
+    $('#app').innerHTML = `<div class="card err"><b>Meteo non disponibile</b><div class="muted" style="margin:6px 0">${esc(w.err)}</div><button class="btn small" data-a="aggiornaMeteo">Riprova</button></div>${linkImpostazioni()}`;
     return;
   }
   const j = w.j, c = j.current, i = hIdx(j), d = j.daily, h = j.hourly;

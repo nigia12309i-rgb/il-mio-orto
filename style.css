@@ -273,3 +273,10 @@ body.meteo .bottom-nav{background:rgba(20,50,85,.55)!important}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
 .bottom-nav a .ic{color:#bfe6ff}
 .bottom-nav a.on .ic{color:#fff}
+
+/* ===== pulito: niente aloni o bagliori su testo e riquadri, vetro semplice ===== */
+*{text-shadow:none!important}
+.ic,.card .ic,.kpi .ic,.chip .ic{filter:none!important}
+.card,.wx-glass,.kpi,.chip,.btn,.wx-pill,.bottom-nav{box-shadow:0 6px 18px rgba(0,0,0,.14)!important}
+.card,.wx-glass{-webkit-backdrop-filter:blur(18px) saturate(160%)!important;backdrop-filter:blur(18px) saturate(160%)!important;border:1px solid rgba(220,240,255,.18)!important}
+.wx-glass{background:rgba(190,225,255,.14)!important}
