@@ -733,6 +733,7 @@ async function route() {
   const [nome, ...resto] = (location.hash || '#home').slice(1).split('/');
   const fn = pagine[nome] || pageHome;
   document.querySelectorAll('.bottom-nav a').forEach(a => a.classList.toggle('on', a.dataset.r === nome || (nome === 'meteo' && a.dataset.r === 'home')));
+  document.body.classList.toggle('meteo', nome === 'meteo');
   $('#app').innerHTML = '<div class="loading">Caricamento…</div>';
   try { await fn(resto.join('/') || undefined); }
   catch (err) { $('#app').innerHTML = `<div class="card err">Si è verificato un errore: ${esc(err.message)}</div>`; }
