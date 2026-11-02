@@ -1,6 +1,44 @@
 // IL MIO ORTO – fase 1
 'use strict';
 
+
+/* ============ icone stilizzate (sostituiscono le emoji) ============ */
+const S = p => `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+const CLOUD = 'M7 18h10.5a3.8 3.8 0 0 0 .3-7.6A5.6 5.6 0 0 0 7.2 9.6 4 4 0 0 0 7 18z';
+const ICON = {
+  sole: S('<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/>'),
+  parz: S('<circle cx="8.5" cy="8.5" r="3.2"/><path d="M8.5 2.5v1.2M2.5 8.5h1.2M4.3 4.3l.9.9M12.7 4.3l-.9.9"/><path d="' + CLOUD + '"/>'),
+  nuvole: S('<path d="' + CLOUD + '"/>'),
+  pioggia: S('<path d="' + CLOUD + '"/><path d="M9 20.5l-1 1.5M13 20.5l-1 1.5M17 20.5l-1 1.5"/>'),
+  temporale: S('<path d="' + CLOUD + '"/><path d="M12.5 15l-2 3.5h2.5l-1.5 3"/>'),
+  neve: S('<path d="' + CLOUD + '"/><path d="M9 20.5h.01M13 21.5h.01M17 20.5h.01"/>'),
+  nebbia: S('<path d="M4 9h16M3 13h14M6 17h15"/>'),
+  notte: S('<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>'),
+  casa: S('<path d="M3.5 11L12 4l8.5 7"/><path d="M6 10v9.5h12V10"/>'),
+  pianta: S('<path d="M12 21v-9"/><path d="M12 12c0-4-3-7-7-7 0 4 3 7 7 7zM12 12c0-3.5 2.5-6 6.5-6 0 3.5-2.5 6-6.5 6z"/>'),
+  calendario: S('<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/>'),
+  camera: S('<path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>'),
+  gear: S('<circle cx="12" cy="12" r="3"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M5.6 18.4l1.8-1.8M16.6 7.4l1.8-1.8"/>'),
+  acqua: S('<path d="M12 3.5s-6 6.6-6 11a6 6 0 0 0 12 0c0-4.4-6-11-6-11z"/>'),
+  lente: S('<circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/>'),
+  libro: S('<path d="M4 5.5C6.5 4.5 9.5 4.5 12 6c2.5-1.5 5.5-1.5 8-.5V19c-2.5-1-5.5-1-8 .5-2.5-1.5-5.5-1.5-8-.5z"/><path d="M12 6v13.5"/>'),
+  attrezzi: S('<path d="M14.5 6.5a4 4 0 0 0 4.5 5.5l-8.5 8.5a2 2 0 0 1-3-3l8.5-8.5a4 4 0 0 0-1.5-2.5z"/>'),
+  cesto: S('<path d="M5 9h14l-1.6 10.2a1.5 1.5 0 0 1-1.5 1.3H8.1a1.5 1.5 0 0 1-1.5-1.3z"/><path d="M9 9l3-5 3 5"/>'),
+  vaso: S('<path d="M6 10h12l-1.6 9a1.5 1.5 0 0 1-1.5 1.2h-6.8A1.5 1.5 0 0 1 7.6 19z"/><path d="M12 10c0-3 2-5.5 5-5.5-.2 3-2.2 5.5-5 5.5zM12 10c0-2.5-1.8-4.5-4.5-4.5.2 2.5 2 4.5 4.5 4.5z"/>'),
+  freddo: S('<path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9"/>'),
+  caldo: S('<path d="M12 21c3.5 0 6-2.5 6-6 0-3.5-3-5-3.5-9-2.5 2-4 4.5-4 7-1-1-1.5-2-1.5-3.5C7.5 11 6 13 6 15c0 3.3 2.7 6 6 6z"/>'),
+  vento: S('<path d="M3 9h11a3 3 0 1 0-3-3M3 14h15a3 3 0 1 1-3 3M3 19h6"/>'),
+  avviso: S('<path d="M12 3.5l9.5 16.5h-19z"/><path d="M12 10v4.5M12 17.5h.01"/>'),
+  l0: S('<circle cx="12" cy="12" r="8"/>'),
+  l1: S('<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16a5 8 0 0 0 0-16z" fill="currentColor"/>'),
+  l2: S('<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/>'),
+  l3: S('<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16a5 8 0 0 1 0-16z" fill="currentColor"/>'),
+  l4: S('<circle cx="12" cy="12" r="8" fill="currentColor"/>'),
+  l5: S('<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16a5 8 0 0 1 0-16z" fill="currentColor"/>'),
+  l6: S('<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor"/>'),
+  l7: S('<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16a5 8 0 0 0 0-16z" fill="currentColor"/>')
+};
+
 /* ============ utilità ============ */
 const $ = (s, el = document) => el.querySelector(s);
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -78,17 +116,17 @@ function hIdx(j) {
   return i < 0 ? 0 : i;
 }
 const WMO = {
-  0: ['Sereno', '☀️', 'sole'], 1: ['Prevalentemente sereno', '🌤️', 'sole'], 2: ['Parzialmente nuvoloso', '⛅', 'nuvole'], 3: ['Coperto', '☁️', 'nuvole_scure'],
-  45: ['Nebbia', '🌫️', 'nebbia'], 48: ['Nebbia con brina', '🌫️', 'nebbia'],
-  51: ['Pioviggine', '🌦️', 'pioggia'], 53: ['Pioviggine', '🌦️', 'pioggia'], 55: ['Pioviggine intensa', '🌧️', 'pioggia'],
-  61: ['Pioggia debole', '🌦️', 'pioggia'], 63: ['Pioggia', '🌧️', 'pioggia'], 65: ['Pioggia forte', '🌧️', 'pioggia'],
-  66: ['Pioggia gelata', '🌧️', 'neve'], 67: ['Pioggia gelata forte', '🌧️', 'neve'],
-  71: ['Neve debole', '🌨️', 'neve'], 73: ['Neve', '🌨️', 'neve'], 75: ['Neve forte', '❄️', 'neve'], 77: ['Nevischio', '🌨️', 'neve'],
-  80: ['Rovesci', '🌦️', 'pioggia'], 81: ['Rovesci', '🌧️', 'pioggia'], 82: ['Rovesci forti', '⛈️', 'temporale'],
-  85: ['Nevicate a rovesci', '🌨️', 'neve'], 86: ['Nevicate forti a rovesci', '❄️', 'neve'],
-  95: ['Temporale', '⛈️', 'temporale'], 96: ['Temporale con grandine', '⛈️', 'temporale'], 99: ['Temporale forte con grandine', '⛈️', 'temporale']
+  0: ['Sereno', ICON.sole, 'sole'], 1: ['Prevalentemente sereno', '${ICON.parz}', 'sole'], 2: ['Parzialmente nuvoloso', '${ICON.parz}', 'nuvole'], 3: ['Coperto', '${ICON.nuvole}', 'nuvole_scure'],
+  45: ['Nebbia', ICON.nebbia, 'nebbia'], 48: ['Nebbia con brina', '${ICON.nebbia}', 'nebbia'],
+  51: ['Pioviggine', '${ICON.pioggia}', 'pioggia'], 53: ['Pioviggine', '${ICON.pioggia}', 'pioggia'], 55: ['Pioviggine intensa', '${ICON.pioggia}', 'pioggia'],
+  61: ['Pioggia debole', '${ICON.pioggia}', 'pioggia'], 63: ['Pioggia', '${ICON.pioggia}', 'pioggia'], 65: ['Pioggia forte', '${ICON.pioggia}', 'pioggia'],
+  66: ['Pioggia gelata', '${ICON.pioggia}', 'neve'], 67: ['Pioggia gelata forte', '${ICON.pioggia}', 'neve'],
+  71: ['Neve debole', '${ICON.neve}', 'neve'], 73: ['Neve', ICON.neve, 'neve'], 75: ['Neve forte', '${ICON.neve}', 'neve'], 77: ['Nevischio', '${ICON.neve}', 'neve'],
+  80: ['Rovesci', '${ICON.pioggia}', 'pioggia'], 81: ['Rovesci', '${ICON.pioggia}', 'pioggia'], 82: ['Rovesci forti', '${ICON.temporale}', 'temporale'],
+  85: ['Nevicate a rovesci', '${ICON.neve}', 'neve'], 86: ['Nevicate forti a rovesci', '${ICON.neve}', 'neve'],
+  95: ['Temporale', '${ICON.temporale}', 'temporale'], 96: ['Temporale con grandine', '${ICON.temporale}', 'temporale'], 99: ['Temporale forte con grandine', '${ICON.temporale}', 'temporale']
 };
-const condizione = code => WMO[code] || ['Non disponibile', '🌡️', 'nuvole'];
+const condizione = code => WMO[code] || ['Non disponibile', '${ICON.nuvole}', 'nuvole'];
 function sceneKind(code, isDay, hour) {
   let k = condizione(code)[2];
   if (!isDay && (k === 'sole' || k === 'nuvole')) return 'notte';
@@ -101,25 +139,25 @@ const rnd = (a, b) => a + Math.random() * (b - a);
 
 // Animazione meteo: elementi decorativi generati in modo casuale ma stabile per ogni render
 function sceneHTML(kind, isDay, content) {
-  let fx = '';
-  const cloud = (scura) => `<b class="cloud ${scura ? 'scura' : ''}" style="top:${rnd(4, 60)}%;animation-duration:${rnd(25, 45)}s;animation-delay:-${rnd(0, 40)}s"></b>`;
-  const drops = n => Array.from({ length: n }, () => `<i class="drop" style="left:${rnd(0, 100)}%;animation-duration:${rnd(.6, 1.2)}s;animation-delay:-${rnd(0, 1.5)}s"></i>`).join('');
-  const ripples = n => Array.from({ length: n }, () => `<i class="ripple" style="left:${rnd(5, 85)}%;top:${rnd(62, 92)}%;animation-delay:-${rnd(0, 3)}s"></i>`).join('');
-  const flakes = n => Array.from({ length: n }, () => `<i class="flake" style="left:${rnd(0, 100)}%;animation-duration:${rnd(5, 9)}s;animation-delay:-${rnd(0, 9)}s">❄</i>`).join('');
-  const stars = n => Array.from({ length: n }, () => `<i class="star" style="left:${rnd(0, 100)}%;top:${rnd(0, 100)}%;animation-delay:-${rnd(0, 3)}s"></i>`).join('');
+  const cloud = (cls, top, dur, delay, s = 1) => `<b class="cloud ${cls}" style="--s:${s};top:${top}%;animation-duration:${dur}s;animation-delay:-${delay}s"></b>`;
+  const rainLayer = (n, cls, dMin, dMax, len) => Array.from({ length: n }, () => `<i class="rd ${cls}" style="left:${rnd(-5, 105)}%;height:${len}px;animation-duration:${rnd(dMin, dMax)}s;animation-delay:-${rnd(0, dMax)}s"></i>`).join('');
+  const splash = n => Array.from({ length: n }, () => `<i class="splash" style="left:${rnd(4, 96)}%;top:${rnd(72, 97)}%;animation-delay:-${rnd(0, 2.6)}s"></i>`).join('');
+  const flakes = n => Array.from({ length: n }, () => `<i class="flake" style="left:${rnd(0, 100)}%;font-size:${rnd(8, 15)}px;animation-duration:${rnd(7, 13)}s;animation-delay:-${rnd(0, 13)}s"></i>`).join('');
+  const stars = n => Array.from({ length: n }, () => `<i class="star" style="left:${rnd(0, 100)}%;top:${rnd(0, 70)}%;animation-delay:-${rnd(0, 3)}s"></i>`).join('');
   const fog = `<i class="fog" style="top:20%"></i><i class="fog" style="top:55%;animation-duration:16s"></i>`;
+  const sun = `<div class="rays-full"></div><div class="sun-core"></div>`;
+  let fx = '';
   switch (kind) {
-    case 'sole': fx = `<div class="sun"><div class="rays"></div></div>${cloud(false)}`; break;
-    case 'tramonto': fx = `<div class="sun" style="top:auto;bottom:-40px;right:30%"><div class="rays"></div></div>`; break;
-    case 'nuvole': fx = cloud(false) + cloud(false); break;
-    case 'nuvole_scure': fx = cloud(true) + cloud(true) + cloud(true); break;
-    case 'pioggia': fx = cloud(true) + drops(60) + ripples(10); break;
-    case 'temporale': fx = cloud(true) + cloud(true) + drops(70) + ripples(10) + `<div class="flash"></div>`; break;
-    case 'neve': fx = flakes(50); break;
+    case 'sole': fx = sun + cloud('soft', 12, 46, 4, 1) + cloud('soft', 34, 62, 22, .75); break;
+    case 'tramonto': fx = `<div class="rays-full warm"></div><div class="sun-core low"></div>`; break;
+    case 'nuvole': fx = cloud('soft', 10, 46, 0, 1) + cloud('soft', 34, 62, 15, .8) + cloud('soft', 58, 54, 30, .65); break;
+    case 'nuvole_scure': fx = cloud('dark', 8, 38, 0, 1) + cloud('dark', 30, 48, 10, .9) + cloud('dark', 56, 58, 25, .7); break;
+    case 'pioggia': fx = cloud('dark', 6, 42, 0, 1.05) + cloud('dark', 22, 52, 12, .85) + rainLayer(34, 'far', 1.3, 1.9, 16) + rainLayer(44, 'near', .8, 1.2, 30) + splash(16); break;
+    case 'temporale': fx = cloud('dark', 4, 32, 0, 1.1) + cloud('dark', 20, 40, 8, .95) + rainLayer(50, 'far', 1, 1.5, 18) + rainLayer(56, 'near', .6, .9, 34) + splash(22) + `<div class="flash"></div>`; break;
+    case 'neve': fx = cloud('soft', 8, 56, 0, 1) + flakes(60); break;
     case 'nebbia': fx = fog; break;
-    case 'notte': fx = stars(60) + `<div class="moon"></div>`; break;
+    case 'notte': fx = stars(80) + `<div class="moon"></div>`; break;
   }
-  if (!isDay && kind !== 'notte' && kind !== 'tramonto') fx = stars(30) + fx;
   return `<section class="scene scene-${kind}">${fx}<div class="content">${content}</div></section>`;
 }
 
@@ -132,14 +170,14 @@ function etaLuna(d) {
 }
 function fasiLuna(d) {
   const e = etaLuna(d);
-  if (e < 1.85) return { nome: 'Luna nuova', ico: '🌑' };
-  if (e < 7.38) return { nome: 'Luna crescente', ico: '🌒' };
-  if (e < 9.22) return { nome: 'Primo quarto', ico: '🌓' };
-  if (e < 14.77) return { nome: 'Luna crescente', ico: '🌔' };
-  if (e < 16.61) return { nome: 'Luna piena', ico: '🌕' };
-  if (e < 22.15) return { nome: 'Luna calante', ico: '🌖' };
-  if (e < 23.99) return { nome: 'Ultimo quarto', ico: '🌗' };
-  return { nome: 'Luna calante', ico: '🌘' };
+  if (e < 1.85) return { nome: 'Luna nuova', ico: ICON.l0 };
+  if (e < 7.38) return { nome: 'Luna crescente', ico: ICON.l1 };
+  if (e < 9.22) return { nome: 'Primo quarto', ico: ICON.l2 };
+  if (e < 14.77) return { nome: 'Luna crescente', ico: ICON.l3 };
+  if (e < 16.61) return { nome: 'Luna piena', ico: ICON.l4 };
+  if (e < 22.15) return { nome: 'Luna calante', ico: ICON.l5 };
+  if (e < 23.99) return { nome: 'Ultimo quarto', ico: ICON.l6 };
+  return { nome: 'Luna calante', ico: ICON.l7 };
 }
 function prossimaLuna(target) {
   let t = new Date(), prev = etaLuna(t);
@@ -201,20 +239,20 @@ function consiglioMeteo(j) {
   const tmin = d.temperature_2m_min[0], tmax = d.temperature_2m_max[0];
   const ventoMax = Math.max(...j.hourly.wind_speed_10m.slice(i, i + 24));
   const umidMedia = j.hourly.relative_humidity_2m.slice(i, i + 24).reduce((a, b) => a + b, 0) / 24;
-  if (pioggia2g >= 5) out.push({ ico: '🌧️', tipo: 'acqua', testo: `Previste circa ${pioggia2g.toFixed(0)} mm di pioggia nei prossimi due giorni: evita irrigazioni inutili.` });
-  if (tmin <= 2) out.push({ ico: '🥶', tipo: 'allerta', testo: `Minima prevista di ${tmin.toFixed(0)}°C: proteggi le piante sensibili con tessuto non tessuto o coperture.` });
-  if (tmax >= 32) out.push({ ico: '🔥', tipo: 'allerta', testo: `Massima prevista di ${tmax.toFixed(0)}°C: annaffia al mattino presto e pacciama per trattenere l'umidità.` });
-  if (ventoMax >= 40) out.push({ ico: '💨', tipo: 'allerta', testo: `Vento fino a ${ventoMax.toFixed(0)} km/h: controlla tutori, legature e coperture.` });
-  if (umidMedia >= 85) out.push({ ico: '💧', tipo: 'avviso', testo: 'Umidità elevata nelle prossime ore: condizioni favorevoli alle malattie fungine, evita di bagnare le foglie.' });
+  if (pioggia2g >= 5) out.push({ ico: ICON.pioggia, tipo: 'acqua', testo: `Previste circa ${pioggia2g.toFixed(0)} mm di pioggia nei prossimi due giorni: evita irrigazioni inutili.` });
+  if (tmin <= 2) out.push({ ico: ICON.freddo, tipo: 'allerta', testo: `Minima prevista di ${tmin.toFixed(0)}°C: proteggi le piante sensibili con tessuto non tessuto o coperture.` });
+  if (tmax >= 32) out.push({ ico: ICON.caldo, tipo: 'allerta', testo: `Massima prevista di ${tmax.toFixed(0)}°C: annaffia al mattino presto e pacciama per trattenere l'umidità.` });
+  if (ventoMax >= 40) out.push({ ico: ICON.vento, tipo: 'allerta', testo: `Vento fino a ${ventoMax.toFixed(0)} km/h: controlla tutori, legature e coperture.` });
+  if (umidMedia >= 85) out.push({ ico: ICON.acqua, tipo: 'avviso', testo: 'Umidità elevata nelle prossime ore: condizioni favorevoli alle malattie fungine, evita di bagnare le foglie.' });
   return out;
 }
 function consigliOrto(j, piante) {
   const out = j ? consiglioMeteo(j) : [];
   const m = MESE_DATI[new Date().getMonth()];
-  if (!piante.length) out.push({ ico: '🌱', tipo: 'info', testo: 'Non hai ancora registrato colture: aggiungile per ricevere consigli personalizzati.' });
-  piante.filter(p => p.stato === 'Da trapiantare').forEach(p => out.push({ ico: '🪴', tipo: 'info', testo: `${esc(p.nome)}: è pronta per il trapianto.` }));
-  piante.filter(p => p.stato === 'Pronta per la raccolta').forEach(p => out.push({ ico: '🧺', tipo: 'info', testo: `${esc(p.nome)}: pronta per la raccolta.` }));
-  m.lavori.forEach(t => out.push({ ico: '🛠️', tipo: 'info', testo: t }));
+  if (!piante.length) out.push({ ico: ICON.pianta, tipo: 'info', testo: 'Non hai ancora registrato colture: aggiungile per ricevere consigli personalizzati.' });
+  piante.filter(p => p.stato === 'Da trapiantare').forEach(p => out.push({ ico: ICON.vaso, tipo: 'info', testo: `${esc(p.nome)}: è pronta per il trapianto.` }));
+  piante.filter(p => p.stato === 'Pronta per la raccolta').forEach(p => out.push({ ico: ICON.cesto, tipo: 'info', testo: `${esc(p.nome)}: pronta per la raccolta.` }));
+  m.lavori.forEach(t => out.push({ ico: ICON.attrezzi, tipo: 'info', testo: t }));
   return out;
 }
 function consigloIrrigazione(j) {
@@ -300,9 +338,9 @@ async function pageMeteo() {
 
   const sfondo = sceneHTML(kind, c.is_day, `
     <div class="wx-top">
-      <span class="wx-ico">☰</span>
+      <span class="wx-ico">${S('<path d="M4 7h10M4 12h16M4 17h10"/>')}</span>
       <div class="wx-title"><b>${luogo}</b><small>${badge}</small></div>
-      <span class="wx-ico">⋮</span>
+      <span class="wx-ico">${S('<circle cx="12" cy="5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="19" r="1.6" fill="currentColor"/>')}</span>
     </div>
     <div style="text-align:center"><span class="wx-pill">UV ${uvTxt}</span></div>
     <div class="wx-cond">${cond[0]} ${Math.round(d.temperature_2m_min[0])}~${Math.round(d.temperature_2m_max[0])}°C</div>
@@ -368,9 +406,9 @@ async function pageHome() {
     <div class="card">${conteggi.length ? '<div class="chips">' + conteggi.map(([st, n]) => `<span class="chip">${st}: ${n}</span>`).join('') + '</div>' : '<span class="muted">Nessuna coltivazione registrata. <a href="#colture">Aggiungi la prima</a>.</span>'}</div>
     <h2>Strumenti</h2>
     <div class="row">
-      <a class="btn sec" href="#irrigazione">💧 Irrigazione</a>
-      <a class="btn sec" href="#diagnosi">🔍 Diagnosi</a>
-      <a class="btn sec" href="#ortaggi">📖 Scheda ortaggi</a>
+      <a class="btn sec" href="#irrigazione">${ICON.acqua} Irrigazione</a>
+      <a class="btn sec" href="#diagnosi">${ICON.lente} Diagnosi</a>
+      <a class="btn sec" href="#ortaggi">${ICON.libro} Scheda ortaggi</a>
     </div>`;
 }
 
@@ -388,14 +426,14 @@ async function pageColture() {
         <span class="chip">${esc(p.stato)}</span></div>
         <div class="muted" style="margin:6px 0">Semina: ${fmtData(p.semina)} · Trapianto: ${fmtData(p.trapianto)} · Raccolta prevista: ${fmtData(p.raccolta)}</div>
         <div class="muted">Ultima irrigazione: ${fmtData(ultimaAcqua(p.id))}</div>
-        ${p.problemi ? `<div style="margin-top:6px">⚠️ ${esc(p.problemi)}</div>` : ''}
+        ${p.problemi ? `<div style="margin-top:6px">${ICON.avviso} ${esc(p.problemi)}</div>` : ''}
         <div class="row" style="margin-top:10px">
-          <button class="btn small" data-a="annaffia" data-id="${p.id}">💧 Annaffiata ora</button>
+          <button class="btn small" data-a="annaffia" data-id="${p.id}">${ICON.acqua} Annaffiata ora</button>
           <button class="btn small sec" data-a="modificaPianta" data-id="${p.id}">Modifica</button>
           <button class="btn small danger" data-a="eliminaPianta" data-id="${p.id}">Elimina</button>
         </div>
       </div>`).join('') : `<div class="card muted">Nessuna coltivazione. Premi “+ Nuova” per aggiungere la prima.</div>`}
-    <p><a href="#ortaggi">📖 Apri la scheda degli ortaggi</a></p>`;
+    <p><a href="#ortaggi">${ICON.libro} Apri la scheda degli ortaggi</a></p>`;
 }
 async function formPianta(id) {
   const p = id ? await dbGet('plants', id) || {} : {};
@@ -452,7 +490,7 @@ async function pageCalendario(param) {
   for (let k = 0; k < vuoti; k++) celle += '<div></div>';
   for (let g = 1; g <= giorni; g++) {
     const e = etaLuna(new Date(anno, mese - 1, g, 12));
-    const ico = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'][Math.round(e / SINODICO * 8) % 8];
+    const ico = [ICON.l0, ICON.l1, ICON.l2, ICON.l3, ICON.l4, ICON.l5, ICON.l6, ICON.l7][Math.round(e / SINODICO * 8) % 8];
     const isOggi = oggi.getFullYear() === anno && oggi.getMonth() + 1 === mese && oggi.getDate() === g;
     celle += `<div style="text-align:center;padding:4px;border-radius:10px;${isOggi ? 'background:var(--beige);font-weight:700' : ''}"><div class="muted" style="font-size:.7rem">${g}</div><div>${ico}</div></div>`;
   }
@@ -485,7 +523,7 @@ async function pageIrrigazione() {
     <div class="card">${w.j ? consigloIrrigazione(w.j) : 'Consigli meteo non disponibili: ' + esc(w.err)}
       <div class="muted" style="margin-top:6px">L'app non conosce l'umidità reale del terreno: verifica con il dito a 3-4 cm di profondità.</div></div>
     <h2>Ultime irrigazioni</h2>
-    ${piante.length ? piante.map(p => `<div class="card"><div class="top"><div><b>${esc(p.nome)}</b><div class="muted">Ultima: ${fmtData(ultima(p.id))}</div></div><button class="btn small" data-a="annaffia" data-id="${p.id}">💧 Annaffiata ora</button></div></div>`).join('') : '<div class="card muted">Aggiungi prima una coltivazione.</div>'}
+    ${piante.length ? piante.map(p => `<div class="card"><div class="top"><div><b>${esc(p.nome)}</b><div class="muted">Ultima: ${fmtData(ultima(p.id))}</div></div><button class="btn small" data-a="annaffia" data-id="${p.id}">${ICON.acqua} Annaffiata ora</button></div></div>`).join('') : '<div class="card muted">Aggiungi prima una coltivazione.</div>'}
     <h2>Registra un'irrigazione</h2>
     <form class="card stack" data-f="irrigazione">
       <label>Coltivazione<select name="plantId">${piante.map(p => `<option value="${p.id}">${esc(p.nome)}</option>`).join('')}</select></label>

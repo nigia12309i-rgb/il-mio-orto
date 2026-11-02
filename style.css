@@ -185,3 +185,67 @@ h2{color:var(--bosco)}
 a{color:#bfe6c9}
 .tag-fresh{background:rgba(63,120,82,.85)}
 .tag-stale{background:rgba(201,138,27,.85)}
+
+/* ===== versione celeste: sole, pioggia, nuvole, liquid glass, icone ===== */
+:root,:root[data-theme="dark"]{--bosco:#9fdcff;--salvia:#4f7ea3;--terra:#cfe9ff;--card:rgba(190,230,255,.12);--ombra:0 14px 34px rgba(4,20,40,.4)}
+html,body{background:radial-gradient(120% 60% at 50% -10%,#2a6aa0 0%,#12375a 50%,#0a1d33 100%) fixed}
+h2{color:#9fdcff}
+a{color:#bfe6ff}
+.card,.wx-glass{background:linear-gradient(135deg,rgba(200,235,255,.26),rgba(140,200,245,.07) 55%,rgba(200,240,255,.16))!important;border:1px solid rgba(210,240,255,.24)!important}
+.card::after{content:"";position:absolute;left:0;right:0;top:0;height:45%;pointer-events:none;border-radius:26px 26px 60% 60%/26px 26px 40% 40%;background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0))}
+.btn{background:linear-gradient(135deg,#4aa6e8,#1d6aa8)}
+.btn.sec{border-color:rgba(190,230,255,.45);color:#e8f6ff}
+.bottom-nav{background:rgba(30,70,110,.42)!important;border-top:1px solid rgba(200,235,255,.2)}
+.bottom-nav a.on{background:rgba(200,235,255,.2)}
+.bottom-nav a .ico svg{width:24px;height:24px}
+.modal-box{background:#12304d}
+.kpi{background:linear-gradient(135deg,rgba(200,235,255,.22),rgba(140,200,245,.06))}
+.chip{background:rgba(190,230,255,.16)}
+.tag-fresh{background:rgba(40,130,190,.9)}
+.tag-stale{background:rgba(200,150,40,.9)}
+.ic{width:1.2em;height:1.2em;vertical-align:-.22em;display:inline-block}
+.wx-ico .ic{width:24px;height:24px}
+.wx-pill{background:rgba(220,242,255,.22)}
+
+/* cielo */
+.scene-sole{background:linear-gradient(175deg,#1f7fd6 0%,#56b6f2 42%,#a6dcff 80%,#e6f7ff 100%)}
+.scene-nuvole{background:linear-gradient(175deg,#3d8fd8,#8fcaf4)}
+.scene-nuvole_scure{background:linear-gradient(175deg,#2d5d88,#6f98bd)}
+.scene-pioggia{background:linear-gradient(175deg,#24547f,#5f8fb8)}
+.scene-temporale{background:linear-gradient(175deg,#173756,#3e6a93)}
+.scene-neve{background:linear-gradient(175deg,#7fb7e0,#e0f1ff);color:#0c2a40}
+.scene-nebbia{background:linear-gradient(175deg,#6f9bb8,#bcd9ea);color:#0c2233}
+.scene-tramonto{background:linear-gradient(175deg,#2a5f9c,#f0a27e 62%,#ffd98c)}
+.scene-notte{background:linear-gradient(175deg,#05122a,#183a68)}
+
+/* sole: raggi su tutto lo schermo */
+.rays-full{inset:-30%!important;background:repeating-conic-gradient(from 0deg at 80% 6%,rgba(255,252,220,.34) 0deg 4deg,transparent 4deg 16deg);
+  -webkit-mask-image:radial-gradient(circle at 80% 6%,#000 0%,rgba(0,0,0,.6) 40%,transparent 80%);mask-image:radial-gradient(circle at 80% 6%,#000 0%,rgba(0,0,0,.6) 40%,transparent 80%);animation:spin 120s linear infinite}
+.rays-full.warm{background:repeating-conic-gradient(from 0deg at 85% 90%,rgba(255,220,150,.3) 0deg 4deg,transparent 4deg 16deg);-webkit-mask-image:radial-gradient(circle at 85% 90%,#000,transparent 75%);mask-image:radial-gradient(circle at 85% 90%,#000,transparent 75%)}
+.sun-core{position:absolute;right:-70px;top:-70px;width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,#ffffff 0%,#fff9d6 18%,#ffe98a 34%,rgba(255,226,120,.45) 52%,rgba(255,226,120,0) 70%);animation:pulse 6s ease-in-out infinite;filter:blur(1px)}
+.sun-core.low{right:auto;left:30%;top:auto;bottom:-130px;width:420px;height:420px}
+
+/* nuvole vere */
+.cloud{position:absolute;width:calc(260px * var(--s,1));height:calc(130px * var(--s,1));background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20300%20150%27%3E%3Cdefs%3E%3Cfilter%20id%3D%27b%27%20x%3D%27-20%25%27%20y%3D%27-40%25%27%20width%3D%27140%25%27%20height%3D%27180%25%27%3E%3CfeGaussianBlur%20stdDeviation%3D%272.5%27/%3E%3C/filter%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%270%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ffffff%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23d6eaf9%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg%20filter%3D%27url%28%23b%29%27%20fill%3D%27url%28%23g%29%27%3E%3Ccircle%20cx%3D%2795%27%20cy%3D%2785%27%20r%3D%2742%27/%3E%3Ccircle%20cx%3D%27150%27%20cy%3D%2762%27%20r%3D%2756%27/%3E%3Ccircle%20cx%3D%27210%27%20cy%3D%2785%27%20r%3D%2740%27/%3E%3Ccircle%20cx%3D%27252%27%20cy%3D%27102%27%20r%3D%2726%27/%3E%3Crect%20x%3D%2755%27%20y%3D%2785%27%20width%3D%27200%27%20height%3D%2742%27%20rx%3D%2721%27/%3E%3C/g%3E%3C/svg%3E") no-repeat center/contain;opacity:.96;animation:drift linear infinite;filter:drop-shadow(0 10px 16px rgba(10,30,60,.18))}
+.cloud.dark{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20300%20150%27%3E%3Cdefs%3E%3Cfilter%20id%3D%27b%27%20x%3D%27-20%25%27%20y%3D%27-40%25%27%20width%3D%27140%25%27%20height%3D%27180%25%27%3E%3CfeGaussianBlur%20stdDeviation%3D%272.5%27/%3E%3C/filter%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%270%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%239fb4c9%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%235b7390%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg%20filter%3D%27url%28%23b%29%27%20fill%3D%27url%28%23g%29%27%3E%3Ccircle%20cx%3D%2795%27%20cy%3D%2785%27%20r%3D%2742%27/%3E%3Ccircle%20cx%3D%27150%27%20cy%3D%2762%27%20r%3D%2756%27/%3E%3Ccircle%20cx%3D%27210%27%20cy%3D%2785%27%20r%3D%2740%27/%3E%3Ccircle%20cx%3D%27252%27%20cy%3D%27102%27%20r%3D%2726%27/%3E%3Crect%20x%3D%2755%27%20y%3D%2785%27%20width%3D%27200%27%20height%3D%2742%27%20rx%3D%2721%27/%3E%3C/g%3E%3C/svg%3E");opacity:.92;filter:drop-shadow(0 12px 18px rgba(0,10,30,.35))}
+.cloud.soft{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20300%20150%27%3E%3Cdefs%3E%3Cfilter%20id%3D%27b%27%20x%3D%27-20%25%27%20y%3D%27-40%25%27%20width%3D%27140%25%27%20height%3D%27180%25%27%3E%3CfeGaussianBlur%20stdDeviation%3D%272.5%27/%3E%3C/filter%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%270%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ffffff%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23d6eaf9%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg%20filter%3D%27url%28%23b%29%27%20fill%3D%27url%28%23g%29%27%3E%3Ccircle%20cx%3D%2795%27%20cy%3D%2785%27%20r%3D%2742%27/%3E%3Ccircle%20cx%3D%27150%27%20cy%3D%2762%27%20r%3D%2756%27/%3E%3Ccircle%20cx%3D%27210%27%20cy%3D%2785%27%20r%3D%2740%27/%3E%3Ccircle%20cx%3D%27252%27%20cy%3D%27102%27%20r%3D%2726%27/%3E%3Crect%20x%3D%2755%27%20y%3D%2785%27%20width%3D%27200%27%20height%3D%2742%27%20rx%3D%2721%27/%3E%3C/g%3E%3C/svg%3E")}
+@keyframes drift{from{transform:translateX(-320px)}to{transform:translateX(520px)}}
+
+/* pioggia stile HyperOS: gocce inclinate su più piani + onde sull'acqua */
+.rd{position:absolute;top:-60px;width:1.4px;border-radius:2px;background:linear-gradient(rgba(220,240,255,0),rgba(225,242,255,.9));transform:rotate(14deg);animation:rainfall linear infinite}
+.rd.far{width:1px;opacity:.38}
+.rd.near{width:1.8px;opacity:.8}
+@keyframes rainfall{from{transform:translate(0,-80px) rotate(14deg)}to{transform:translate(-190px,1050px) rotate(14deg)}}
+.splash{position:absolute;width:46px;height:10px;border:1px solid rgba(225,242,255,.75);border-radius:50%;opacity:0;animation:splash 2.6s ease-out infinite}
+@keyframes splash{0%{transform:scale(.2);opacity:0}20%{opacity:.9}100%{transform:scale(1.4);opacity:0}}
+.flake{position:absolute;top:-24px;color:#fff;animation:snow linear infinite;opacity:.9}
+.flake::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#fff}
+@keyframes snow{from{transform:translate(0,-20px)}to{transform:translate(40px,1050px)}}
+.flash{background:#e7f6ff}
+@keyframes flash{0%,90%,100%{opacity:0}91%{opacity:.55}93%{opacity:.05}95%{opacity:.4}97%{opacity:0}}
+
+/* liquid glass celeste */
+.wx-glass,.card{position:relative;overflow:hidden;-webkit-backdrop-filter:blur(20px) saturate(190%) brightness(1.06);backdrop-filter:blur(20px) saturate(190%) brightness(1.06);
+  -webkit-backdrop-filter:url(#liquid-glass) blur(16px) saturate(190%);backdrop-filter:url(#liquid-glass) blur(16px) saturate(190%);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.55),inset 0 -1px 2px rgba(200,235,255,.2),0 16px 36px rgba(4,20,40,.28)!important}
