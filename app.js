@@ -635,7 +635,7 @@ const changes = {
   },
   ripristina: el => ripristina(el.files[0])
 };
-const forms2 = {};
+const forms = {};
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-a]');
   if (el && actions[el.dataset.a]) { e.preventDefault(); actions[el.dataset.a](el); }
