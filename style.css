@@ -262,3 +262,14 @@ body.meteo .bottom-nav{background:rgba(20,50,85,.55)!important}
 .wx-temp{text-shadow:none!important}
 .cloud,.cloud.dark,.cloud.soft{filter:none!important}
 .flash{display:none!important}
+
+/* ===== niente scintille sul testo; icone colorate e leggermente animate ===== */
+.card::before,.card::after,.wx-glass::before{display:none!important;animation:none!important}
+.ic{stroke:url(#ic-grad)}
+.card .ic,.kpi .ic,.chip .ic{color:#9fdcff;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25));animation:bob 4s ease-in-out infinite}
+.card .ic:nth-child(odd){animation-delay:-1.3s}
+.card .ic:nth-child(3n){animation-delay:-2.2s;color:#bdf0d0}
+.card .ic:nth-child(4n){color:#ffe29a}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+.bottom-nav a .ic{color:#bfe6ff}
+.bottom-nav a.on .ic{color:#fff}
