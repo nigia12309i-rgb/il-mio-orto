@@ -1,0 +1,14 @@
+{
+  "name": "IL MIO ORTO",
+  "short_name": "Il mio orto",
+  "description": "Assistente personale per la gestione dell'orto domestico",
+  "lang": "it",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FBF8F1",
+  "theme_color": "#2F4F3A",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

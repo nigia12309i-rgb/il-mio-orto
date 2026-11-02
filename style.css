@@ -1,0 +1,94 @@
+:root{
+  --bosco:#2F4F3A; --salvia:#8FA98B; --beige:#EFE6D2; --bianco:#FBF8F1;
+  --terra:#7A5A3C; --testo:#1F2A22; --muted:#6b7a6e;
+  --card:rgba(255,255,255,.72); --ombra:0 8px 24px rgba(47,79,58,.12);
+}
+@media (prefers-color-scheme: dark){
+  :root{--bianco:#141c16;--beige:#1f2a22;--card:rgba(35,48,40,.78);--testo:#EDE7D6;--muted:#a9b5aa;--bosco:#8FBF9A;--ombra:0 8px 24px rgba(0,0,0,.35)}
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bianco);color:var(--testo);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+#app{padding:16px 14px 100px;max-width:720px;margin:0 auto}
+h1{font-size:1.5rem;margin:.2rem 0 .4rem}
+h2{font-size:1.05rem;margin:1.1rem 0 .5rem;color:var(--bosco)}
+h3{margin:.2rem 0 .6rem}
+.muted{color:var(--muted);font-size:.9rem}
+.card{background:var(--card);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:18px;padding:14px;box-shadow:var(--ombra);margin-bottom:12px}
+.card.err{border-left:4px solid #9b3b2e}
+.card.warn{border-left:4px solid #c98a1b}
+.loading{padding:40px;text-align:center;color:var(--muted)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>*{flex:1 1 140px}
+.stack{display:flex;flex-direction:column;gap:10px}
+label{display:flex;flex-direction:column;gap:4px;font-size:.92rem}
+input,select,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid var(--salvia);background:var(--bianco);color:var(--testo);font:inherit}
+textarea{min-height:70px}
+.btn{background:var(--bosco);color:#fff;border:0;border-radius:12px;padding:10px 14px;font-size:.95rem;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.sec{background:transparent;color:var(--bosco);border:1px solid var(--bosco)}
+.btn.danger{background:#9b3b2e}
+.btn.small{padding:6px 10px;font-size:.85rem}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{background:var(--beige);color:var(--terra);border-radius:999px;padding:3px 10px;font-size:.8rem}
+.list{list-style:none;margin:0;padding:0}
+.list li{padding:8px 0;border-bottom:1px solid rgba(127,140,130,.25)}
+.list li:last-child{border-bottom:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi{background:var(--card);border-radius:14px;padding:10px;box-shadow:var(--ombra)}
+.kpi b{display:block;font-size:1.2rem}
+.kpi span{font-size:.8rem;color:var(--muted)}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+
+/* navigazione */
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom));background:rgba(251,248,241,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid rgba(127,140,130,.25);z-index:20}
+@media (prefers-color-scheme: dark){.bottom-nav{background:rgba(20,28,22,.92)}}
+.bottom-nav a{display:flex;flex-direction:column;align-items:center;font-size:.72rem;color:var(--muted);text-decoration:none;padding:4px 6px;border-radius:12px;min-width:60px}
+.bottom-nav a .ico{font-size:1.25rem}
+.bottom-nav a.on{color:var(--bosco);background:var(--beige)}
+
+/* modale */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center;z-index:50}
+.modal[hidden]{display:none}
+.modal-box{background:var(--bianco);width:100%;max-width:640px;max-height:88vh;overflow:auto;border-radius:22px 22px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+
+/* meteo */
+.scene{position:relative;overflow:hidden;border-radius:24px;padding:18px;color:#fff;min-height:190px;box-shadow:var(--ombra);isolation:isolate;margin-bottom:12px}
+.scene>*{position:absolute;pointer-events:none}
+.scene>.content{position:relative;z-index:2;pointer-events:auto}
+.scene-sole{background:linear-gradient(160deg,#4FA3E0,#9FD8F5 65%,#E8F6FF)}
+.scene-nuvole{background:linear-gradient(160deg,#6E8FB0,#A9BED3)}
+.scene-nuvole_scure,.scene-temporale{background:linear-gradient(160deg,#243041,#4a5566)}
+.scene-pioggia{background:linear-gradient(160deg,#41566b,#7b92a8)}
+.scene-neve{background:linear-gradient(160deg,#9fb6c9,#e7f0f7);color:#1b2a36}
+.scene-nebbia{background:linear-gradient(160deg,#8e9aa3,#c9d1d6);color:#1b2024}
+.scene-tramonto{background:linear-gradient(160deg,#3b2f63,#e0715a 55%,#f7b267)}
+.scene-notte{background:linear-gradient(160deg,#060b1e,#1a2a55)}
+.sun{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,#fff6b0,#ffd23f 60%,rgba(255,200,0,0) 70%);right:-14px;top:-14px;animation:pulse 4s ease-in-out infinite}
+.rays{position:absolute;inset:-46px;border-radius:50%;background:repeating-conic-gradient(rgba(255,235,130,.38) 0 6deg,transparent 6deg 20deg);animation:spin 30s linear infinite}
+.cloud{width:120px;height:38px;background:rgba(255,255,255,.85);border-radius:40px;animation:drift linear infinite;opacity:.9}
+.cloud.scura{background:rgba(70,80,95,.85)}
+.drop{width:2px;height:14px;background:linear-gradient(transparent,rgba(210,235,255,.95));top:-20px;animation:fall linear infinite}
+.flake{color:#fff;top:-20px;animation:fall linear infinite;font-size:12px;opacity:.9}
+.star{width:2px;height:2px;background:#fff;border-radius:50%;animation:twinkle 3s ease-in-out infinite}
+.moon{width:46px;height:46px;border-radius:50%;background:#f4f1de;box-shadow:0 0 30px rgba(255,255,220,.6);right:22px;top:18px}
+.flash{inset:0;background:#fff;opacity:0;animation:flash 6s infinite}
+.fog{left:-20%;width:140%;height:56px;background:rgba(255,255,255,.35);filter:blur(12px);animation:fogmove 12s ease-in-out infinite alternate}
+.big-temp{font-size:4rem;font-weight:300;line-height:1}
+.hourly{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
+.hourly>div{min-width:62px;text-align:center;background:var(--card);border-radius:14px;padding:8px 4px;box-shadow:var(--ombra);font-size:.85rem}
+.chart{width:100%;height:auto;display:block}
+.tag-stale{background:#c98a1b;color:#fff;border-radius:8px;padding:2px 8px;font-size:.8rem}
+.tag-fresh{background:var(--bosco);color:#fff;border-radius:8px;padding:2px 8px;font-size:.8rem}
+
+/* ortaggi, diario */
+.photo{width:100%;border-radius:14px;display:block;object-fit:cover;max-height:320px}
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+@keyframes fall{from{transform:translateY(-20px)}to{transform:translateY(230px)}}
+@keyframes drift{from{transform:translateX(-170px)}to{transform:translateX(430px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{transform:scale(1.06)}}
+@keyframes twinkle{50%{opacity:.2}}
+@keyframes flash{0%,92%,100%{opacity:0}93%{opacity:.7}95%{opacity:.1}97%{opacity:.5}}
+@keyframes fogmove{to{transform:translateX(15%)}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important}}
