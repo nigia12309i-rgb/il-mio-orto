@@ -1,5 +1,6 @@
-// Service worker: salva l'app per l'uso offline. Cambia la versione quando aggiorni i file.
-const CACHE = 'ilmioorto-v1';
+// Service worker: salva l'app per l'uso offline.
+// Per i file dell'app prova prima la rete, così le correzioni arrivano subito; se manca Internet usa la copia salvata.
+const CACHE = 'ilmioorto-v2';
 const SHELL = ['./', 'index.html', 'style.css', 'app.js', 'manifest.json', 'icon.svg'];
 
 self.addEventListener('install', e => {
@@ -16,10 +17,10 @@ self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== location.origin) return; // le API meteo non passano da qui
   e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
+    fetch(e.request).then(res => {
       const copy = res.clone();
       caches.open(CACHE).then(c => c.put(e.request, copy));
       return res;
-    }).catch(() => caches.match('index.html')))
+    }).catch(() => caches.match(e.request).then(c => c || caches.match('index.html')))
   );
 });

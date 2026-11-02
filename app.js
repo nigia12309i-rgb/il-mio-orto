@@ -225,6 +225,9 @@ function consigloIrrigazione(j) {
   return 'Stagione più fresca: annaffia solo quando il terreno è asciutto in profondità.';
 }
 
+/* ============ moduli dei form (dichiarati prima dell'uso) ============ */
+const forms = {};
+
 /* ============ rendering: meteo ============ */
 function cardMeteoCompatta(w) {
   const c = w.j.current, d = w.j.daily, cond = condizione(c.weather_code);
