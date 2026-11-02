@@ -104,6 +104,7 @@ function sceneHTML(kind, isDay, content) {
   let fx = '';
   const cloud = (scura) => `<b class="cloud ${scura ? 'scura' : ''}" style="top:${rnd(4, 60)}%;animation-duration:${rnd(25, 45)}s;animation-delay:-${rnd(0, 40)}s"></b>`;
   const drops = n => Array.from({ length: n }, () => `<i class="drop" style="left:${rnd(0, 100)}%;animation-duration:${rnd(.6, 1.2)}s;animation-delay:-${rnd(0, 1.5)}s"></i>`).join('');
+  const ripples = n => Array.from({ length: n }, () => `<i class="ripple" style="left:${rnd(5, 85)}%;top:${rnd(62, 92)}%;animation-delay:-${rnd(0, 3)}s"></i>`).join('');
   const flakes = n => Array.from({ length: n }, () => `<i class="flake" style="left:${rnd(0, 100)}%;animation-duration:${rnd(5, 9)}s;animation-delay:-${rnd(0, 9)}s">❄</i>`).join('');
   const stars = n => Array.from({ length: n }, () => `<i class="star" style="left:${rnd(0, 100)}%;top:${rnd(0, 100)}%;animation-delay:-${rnd(0, 3)}s"></i>`).join('');
   const fog = `<i class="fog" style="top:20%"></i><i class="fog" style="top:55%;animation-duration:16s"></i>`;
@@ -112,8 +113,8 @@ function sceneHTML(kind, isDay, content) {
     case 'tramonto': fx = `<div class="sun" style="top:auto;bottom:-40px;right:30%"><div class="rays"></div></div>`; break;
     case 'nuvole': fx = cloud(false) + cloud(false); break;
     case 'nuvole_scure': fx = cloud(true) + cloud(true) + cloud(true); break;
-    case 'pioggia': fx = cloud(true) + drops(60); break;
-    case 'temporale': fx = cloud(true) + cloud(true) + drops(70) + `<div class="flash"></div>`; break;
+    case 'pioggia': fx = cloud(true) + drops(60) + ripples(10); break;
+    case 'temporale': fx = cloud(true) + cloud(true) + drops(70) + ripples(10) + `<div class="flash"></div>`; break;
     case 'neve': fx = flakes(50); break;
     case 'nebbia': fx = fog; break;
     case 'notte': fx = stars(60) + `<div class="moon"></div>`; break;
@@ -241,46 +242,79 @@ function cardMeteoCompatta(w) {
 
 async function pageMeteo() {
   const w = await getWeather(), s = await getSettings();
-  if (!w.j) return $('#app').innerHTML = `<h1>Meteo</h1><div class="card err">Meteo non disponibile: ${esc(w.err)}.</div>${linkImpostazioni()}`;
-  const j = w.j, c = j.current, i = hIdx(j), d = j.daily, cond = condizione(c.weather_code);
+  if (!w.j) {
+    $('#app').innerHTML = `<h1>Meteo</h1><div class="card err">Meteo non disponibile: ${esc(w.err)}.</div>${linkImpostazioni()}`;
+    return;
+  }
+  const j = w.j, c = j.current, i = hIdx(j), d = j.daily, h = j.hourly;
+  const cond = condizione(c.weather_code);
   const kind = sceneKind(c.weather_code, c.is_day, new Date().getHours());
-  const badge = w.fresh ? `<span class="tag-fresh">Aggiornato alle ${fmtOra(w.t)}</span>` : `<span class="tag-stale">Dati memorizzati del ${fmtOra(w.t)}. Non aggiornati${w.err ? ': ' + esc(w.err) : ''}</span>`;
-  const h = j.hourly;
-  const ore = Array.from({ length: 24 }, (_, k) => i + k).filter(k => k < h.time.length);
-  const hourlyHTML = ore.map(k => `<div><div>${h.time[k].slice(11, 16)}</div><div style="font-size:1.4rem">${condizione(h.weather_code[k])[1]}</div><div><b>${Math.round(h.temperature_2m[k])}°</b></div><div class="muted">${h.precipitation_probability[k] ?? 0}%</div></div>`).join('');
-  const dailyHTML = d.time.map((t, k) => `<li style="display:flex;justify-content:space-between;align-items:center"><span style="width:110px">${new Date(t + 'T12:00').toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric', month: 'short' })}</span><span>${condizione(d.weather_code[k])[1]} ${condizione(d.weather_code[k])[0]}</span><span>${Math.round(d.temperature_2m_min[k])}° / <b>${Math.round(d.temperature_2m_max[k])}°</b></span><span class="muted">${d.precipitation_sum[k].toFixed(1)} mm</span></li>`).join('');
+  const uv = d.uv_index_max[0];
+  const uvTxt = uv == null ? '—' : uv < 3 ? 'Più debole' : uv < 6 ? 'Moderato' : uv < 8 ? 'Forte' : 'Molto forte';
+  const badge = w.fresh ? `Aggiornato alle ${fmtOra(w.t)}` : `Dati memorizzati del ${fmtOra(w.t)}${w.err ? ' · non aggiornati' : ''}`;
+  const luogo = esc((s.luogo || '').split(' (')[0]);
+
+  // prossime 6 ore: una colonna per ora, la curva è centrata su ciascuna colonna
+  const ore = Array.from({ length: 6 }, (_, k) => i + k).filter(k => k < h.time.length);
   const T = ore.map(k => h.temperature_2m[k]);
-  const P = ore.map(k => h.precipitation[k] || 0);
-  const pioggiaTot = P.reduce((a, b) => a + b, 0);
-  const uv = h.uv_index[i], vis = (h.visibility[i] || 0) / 1000;
-  const dati = [
-    ['Temperatura', Math.round(c.temperature_2m) + '°C'], ['Percepita', Math.round(c.apparent_temperature) + '°C'],
-    ['Umidità', c.relative_humidity_2m + '%'], ['Vento', Math.round(c.wind_speed_10m) + ' km/h ' + dirVento(c.wind_direction_10m)],
-    ['Pressione', Math.round(c.pressure_msl) + ' hPa'], ['Indice UV (max oggi)', d.uv_index_max[0]?.toFixed(1) ?? '—'],
-    ['Visibilità', vis.toFixed(1) + ' km'], ['Prob. pioggia (ora)', (h.precipitation_probability[i] ?? 0) + '%'],
-    ['Pioggia nelle 24 ore', pioggiaTot.toFixed(1) + ' mm'], ['Nuvolosità', c.cloud_cover + '%']
+  const tMin = Math.min(...T), tMax = Math.max(...T);
+  const W = 600, H = 120;
+  const cx = k => (k + 0.5) * (W / T.length);
+  const cy = v => H - 34 - ((v - tMin) / ((tMax - tMin) || 1)) * (H - 70);
+  const pts = T.map((v, k) => `${cx(k).toFixed(1)},${cy(v).toFixed(1)}`).join(' ');
+  const curva = `<svg class="wx-curve" viewBox="0 0 ${W} ${H}" aria-label="Andamento temperature prossime ore">
+    <defs><linearGradient id="tg" x1="0" x2="1"><stop offset="0" stop-color="#ffb84d"/><stop offset="1" stop-color="#b8e27a"/></linearGradient></defs>
+    <polyline fill="none" stroke="url(#tg)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="${pts}"/>
+    ${T.map((v, k) => `<text x="${cx(k)}" y="${cy(v) - 12}" text-anchor="middle" font-size="16" fill="currentColor">${Math.round(v)}°</text>`).join('')}
+    <circle cx="${cx(0)}" cy="${cy(T[0])}" r="6" fill="#fff" stroke="#f5a623" stroke-width="3"/></svg>`;
+  const oreHTML = ore.map((k, n) => {
+    const pr = h.precipitation_probability[k];
+    return `<div><div>${n === 0 ? 'Ora' : h.time[k].slice(11, 16)}</div>
+      <div style="font-size:1.5rem;margin:4px 0">${condizione(h.weather_code[k])[1]}</div>
+      <div class="wx-p">${pr >= 20 ? pr + '%' : ''}</div></div>`;
+  }).join('');
+
+  // prossimi giorni con barra di escursione termica
+  const dmin = Math.min(...d.temperature_2m_min), dmax = Math.max(...d.temperature_2m_max);
+  const pos = v => ((v - dmin) / ((dmax - dmin) || 1)) * 100;
+  const giorni = d.time.map((t, k) => {
+    const lab = k === 0 ? 'Oggi' : k === 1 ? 'Domani' : new Date(t + 'T12:00').toLocaleDateString('it-IT', { weekday: 'short' });
+    const a = pos(d.temperature_2m_min[k]), b = pos(d.temperature_2m_max[k]);
+    const pr = d.precipitation_probability_max?.[k];
+    return `<div>
+      <span class="wx-data">${new Date(t + 'T12:00').toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit' })}</span>
+      <span>${lab} ${condizione(d.weather_code[k])[1]}${pr != null && pr >= 20 ? ` <small class="wx-p">${pr}%</small>` : ''}</span>
+      <span style="text-align:right;opacity:.8">${Math.round(d.temperature_2m_min[k])}°</span>
+      <span class="wx-track"><i style="left:${a}%;width:${Math.max(b - a, 5)}%"></i></span>
+      <span style="text-align:right">${Math.round(d.temperature_2m_max[k])}°</span></div>`;
+  }).join('');
+
+  const dettagli = [
+    ['Umidità', c.relative_humidity_2m + '%'],
+    ['Vento', Math.round(c.wind_speed_10m) + ' km/h ' + dirVento(c.wind_direction_10m)],
+    ['Pressione', Math.round(c.pressure_msl) + ' hPa'],
+    ['Visibilità', ((h.visibility[i] || 0) / 1000).toFixed(1) + ' km'],
+    ['Pioggia 24 ore', Array.from({ length: 24 }, (_, k) => h.precipitation[i + k] || 0).reduce((a, b) => a + b, 0).toFixed(1) + ' mm'],
+    ['Nuvolosità', c.cloud_cover + '%']
   ];
-  const consigli = consiglioMeteo(j);
-  $('#app').innerHTML = `
-    <h1>Meteo</h1>
-    ${sceneHTML(kind, c.is_day, `
-      <div class="muted" style="color:inherit;opacity:.9">${esc(s.luogo)}</div>
-      <div class="big-temp">${Math.round(c.temperature_2m)}°</div>
-      <div style="font-size:1.1rem">${cond[1]} ${cond[0]}</div>
-      <div>Max ${Math.round(d.temperature_2m_max[0])}° · Min ${Math.round(d.temperature_2m_min[0])}°</div>
-      <div style="margin-top:8px">${badge}</div>`)}
-    <div class="card"><div class="grid2">${dati.map(([k, v]) => `<div class="kpi"><span>${k}</span><b>${v}</b></div>`).join('')}</div></div>
-    ${consigli.length ? `<h2>Meteo per l'orto</h2>${consigli.map(x => `<div class="card ${x.tipo === 'allerta' ? 'err' : x.tipo === 'avviso' ? 'warn' : ''}">${x.ico} ${x.testo}</div>`).join('')}` : ''}
-    <h2>Prossime 24 ore</h2>
-    <div class="hourly">${hourlyHTML}</div>
-    <h2>Andamento temperature (24 ore)</h2>
-    <div class="card">${grafico(T, '°C', '#2F4F3A')}</div>
-    <h2>Precipitazioni (24 ore)</h2>
-    <div class="card">${grafico(P, 'mm', '#4FA3E0', true)}</div>
-    <h2>Prossimi 10 giorni</h2>
-    <div class="card"><ul class="list">${dailyHTML}</ul></div>
-    <div class="row" style="margin-top:8px"><button class="btn sec" data-a="aggiornaMeteo">Aggiorna dati</button></div>
-    ${linkImpostazioni()}`;
+
+  const sfondo = sceneHTML(kind, c.is_day, `
+    <div class="wx-top">
+      <span class="wx-ico">☰</span>
+      <div class="wx-title"><b>${luogo}</b><small>${badge}</small></div>
+      <span class="wx-ico">⋮</span>
+    </div>
+    <div style="text-align:center"><span class="wx-pill">UV ${uvTxt}</span></div>
+    <div class="wx-cond">${cond[0]} ${Math.round(d.temperature_2m_min[0])}~${Math.round(d.temperature_2m_max[0])}°C</div>
+    <div class="wx-temp">${Math.round(c.temperature_2m)}<sup>°C</sup></div>
+    <div class="wx-feel">Percepita ${Math.round(c.apparent_temperature)}°C</div>
+    <div class="wx-glass">${curva}<div class="wx-hours">${oreHTML}</div></div>
+    <div class="wx-glass wx-daily">${giorni}</div>
+    <div class="wx-glass"><div class="wx-grid">${dettagli.map(([k, v]) => `<div><span>${k}</span><b>${v}</b></div>`).join('')}</div></div>
+    <div class="row" style="margin-top:12px"><button class="btn sec" data-a="aggiornaMeteo">Aggiorna dati</button></div>
+    <p style="text-align:center;opacity:.8"><a href="#impostazioni" style="color:inherit">Cambia la località nelle Impostazioni</a></p>`
+  ).replace('class="scene ', 'class="scene wx-full ');
+  $('#app').innerHTML = sfondo;
 }
 function grafico(valori, unita, colore, barre = false) {
   const W = 600, H = 150, pad = 18;

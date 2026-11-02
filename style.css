@@ -84,7 +84,7 @@ textarea{min-height:70px}
 .gallery{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .compare{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 
-@keyframes fall{from{transform:translateY(-20px)}to{transform:translateY(230px)}}
+@keyframes fall{from{transform:translateY(-20px)}to{transform:translateY(1000px)}}
 @keyframes drift{from{transform:translateX(-170px)}to{transform:translateX(430px)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes pulse{50%{transform:scale(1.06)}}
@@ -92,3 +92,34 @@ textarea{min-height:70px}
 @keyframes flash{0%,92%,100%{opacity:0}93%{opacity:.7}95%{opacity:.1}97%{opacity:.5}}
 @keyframes fogmove{to{transform:translateX(15%)}}
 @media (prefers-reduced-motion: reduce){*{animation:none!important}}
+
+/* ===== meteo a schermo intero (stile della schermata di riferimento) ===== */
+.scene.wx-full{margin:-16px -14px 14px;padding:14px 16px 120px;min-height:100vh;border-radius:0 0 28px 28px;box-shadow:none;color:#fff}
+.wx-full>*{position:absolute;pointer-events:none}
+.wx-full>.content{position:relative;z-index:2;pointer-events:auto}
+.wx-full.scene-neve,.wx-full.scene-nebbia{color:#16222c}
+.wx-top{display:flex;justify-content:space-between;align-items:center;padding:8px 4px}
+.wx-title{text-align:center}
+.wx-title b{display:block;font-size:1.3rem;font-weight:600}
+.wx-title small{opacity:.85;font-size:.78rem}
+.wx-ico{font-size:1.4rem;width:32px;text-align:center;opacity:.92}
+.wx-pill{display:inline-block;background:rgba(255,255,255,.18);border-radius:999px;padding:5px 12px;font-size:.85rem;margin-top:6px}
+.wx-cond{text-align:center;margin-top:22px;font-size:1.05rem;opacity:.95}
+.wx-temp{text-align:center;font-size:6.5rem;font-weight:200;line-height:1;margin:4px 0 0;text-shadow:0 4px 30px rgba(0,0,0,.2)}
+.wx-temp sup{font-size:2rem;vertical-align:top;margin-left:4px;font-weight:300}
+.wx-feel{text-align:center;opacity:.85;font-size:.95rem}
+.wx-glass{background:rgba(255,255,255,.14);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:12px;margin-top:14px}
+.wx-curve{width:100%;height:auto;display:block}
+.wx-hours{display:flex;margin-top:4px}
+.wx-hours>div{flex:1;text-align:center;font-size:.85rem}
+.wx-p{font-size:.72rem;color:#9fd7ff;min-height:1em}
+.wx-daily>div{display:grid;grid-template-columns:44px 1fr 34px 90px 34px;align-items:center;gap:8px;padding:9px 2px;border-bottom:1px solid rgba(255,255,255,.14);font-size:.92rem}
+.wx-daily>div:last-child{border-bottom:0}
+.wx-data{opacity:.75;font-size:.8rem}
+.wx-track{position:relative;height:4px;background:rgba(255,255,255,.18);border-radius:4px}
+.wx-track i{position:absolute;top:0;bottom:0;border-radius:4px;background:linear-gradient(90deg,#7fb6ff,#ffcf6b)}
+.wx-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.wx-grid span{display:block;font-size:.78rem;opacity:.75}
+.wx-grid b{font-size:1.05rem;font-weight:600}
+.ripple{width:70px;height:16px;border:1px solid rgba(255,255,255,.45);border-radius:50%;animation:ripple 3s linear infinite}
+@keyframes ripple{from{transform:scale(.3);opacity:.9}to{transform:scale(1.7);opacity:0}}
